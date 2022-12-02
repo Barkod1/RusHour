@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "83047460761",
+    "firebase_url": "https://rushhour-dbf35-default-rtdb.firebaseio.com",
+    "project_id": "rushhour-dbf35",
+    "storage_bucket": "rushhour-dbf35.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83047460761:android:7930682a40fef98c8fad08",
+        "android_client_info": {
+          "package_name": "com.example.dragdrop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83047460761-dp4ovgnjevj58mks1nechhphbmoeofui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBumiKcoNnBNkT3rXp57pFj0HYS2uPJgwM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83047460761-dp4ovgnjevj58mks1nechhphbmoeofui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
