@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ly1"
+    android:background="@drawable/race"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -36,7 +38,8 @@
         android:background="#c1112e"
         android:gravity="center"
         android:text="Add level"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        app:icon="@android:drawable/ic_menu_add" />
 
     <Button
         android:id="@+id/btnAllPost"
@@ -46,14 +49,26 @@
         android:background="#c1112e"
         android:gravity="center"
         android:text="All Levels"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        app:icon="@android:drawable/ic_dialog_dialer" />
 
     <Button
         android:id="@+id/btnPlay"
         android:layout_width="match_parent"
-        android:layout_height="162dp"
+        android:layout_height="122dp"
         android:text="Play"
-        android:textSize="34sp" />
+        android:textSize="34sp"
+        app:icon="@android:drawable/ic_media_play" />
+
+    <Button
+        android:id="@+id/btnSettings"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="#070707"
+        android:backgroundTint="#000000"
+        android:text="Settings"
+        android:textSize="24sp"
+        app:icon="@android:drawable/ic_menu_preferences" />
 
 
 </LinearLayout>
