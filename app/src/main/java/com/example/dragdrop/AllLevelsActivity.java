@@ -2,7 +2,6 @@ package com.example.dragdrop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,31 +16,34 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
+//המחלקה מראה את כל השלבים שבענן ונותנת אפשרות לשחק אותם
 public class AllLevelsActivity extends AppCompatActivity {
+    //מערך של כל השלבים המובאים מהענן
     ArrayList<Level> levels;
+    //רפרנס לענן ששומר את השלבים
     DatabaseReference levelsRef;
+    //האדפטר של השלבים
     AllLevelsAdapter allLevelsAdapter;
+    //הרשימה בה רואים את השלבים
     ListView lv;
+    //שלב מסויים
     Level level;
 
-    public String nickname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_levels);
         levels = new ArrayList<>();
         lv = (ListView) findViewById(R.id.lvLevels);
-        levelsRef = FirebaseDatabase.getInstance().getReference("/Levels");
+        levelsRef = FirebaseDatabase.getInstance().getReference("/GetBitmap");
         this.retrieveData();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Level level = levels.get(position);
-                Intent intent = new Intent(AllLevelsActivity.this, RushHourGame.class);
+                Intent intent = new Intent(AllLevelsActivity.this, RushHourContext.class);
                 intent.putExtra("key", level.key);
-                Log.d("put key", level.key + "");
                 startActivity(intent);
             }
         });
@@ -57,30 +59,11 @@ public class AllLevelsActivity extends AppCompatActivity {
                 level = new Level();
                 levels = new ArrayList<>();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-//                    ArrayList<Vehicle> vehicles = new ArrayList<>();
-                    //String[] res = levelStr[0].split("\\^");
-//                    for (String word : res) {
                     String data = ds.getValue(String.class);
                     String[] levelStr = data.split("\\$");
-//                        Vehicle vehicle = new Vehicle();
-//                        String[] par = word.split(", ");
-//                        vehicle.length = Integer.parseInt(par[0].trim());
-//                        vehicle.direction = Integer.parseInt(par[1]);
-//                        vehicle.x = Float.parseFloat(par[2]);
-//                        vehicle.y = Float.parseFloat(par[3]);
-//                        vehicle.w = Float.parseFloat(par[4]);
-//                        vehicle.h = Float.parseFloat(par[5]);
-//                        vehicle.code = par[6];
-//                        vehicle.bitmap = Levels.getBitmap(vehicle.code);
-//                        vehicles.add(vehicle);
-//
-//                    }
                     level.difficulty = Integer.parseInt(levelStr[1]);
                     level.title = levelStr[3];
-                   // level.uid = levelStr[2];
                     level.key = levelStr[4];
-                    //retrieveUser(level);
                     level.uid = "";
                     levels.add(level);
                     level = new Level();
@@ -97,33 +80,4 @@ public class AllLevelsActivity extends AppCompatActivity {
 
         });
     }
-//    public void retrieveUser(Level level){
-//        DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference("/Users");
-//        databaseUsers.addListenerForSingleValueEvent(new ValueEventListener() {
-//
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                Iterator<DataSnapshot> iter = snapshot.getChildren().iterator();
-//
-//                for(DataSnapshot data: snapshot.getChildren()){
-//                    User user = iter.next().getValue(User.class);
-//                    Log.d("uid got" , level.uid +  " ");
-//                    //String user1 = iter.next().child("uid").getValue(String.class);
-//                    if(level.uid != null && user.uid != null)
-//                        if(user.uid.equals(level.uid.substring(0,level.uid.length()-1))){
-//                        nickname = user.nickname;
-//
-//                        break;
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//
-//        });
-//    }
-
 }

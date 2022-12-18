@@ -17,10 +17,10 @@
             android:name=".AllLevelsActivity"
             android:exported="false" />
         <activity
-            android:name=".RushHourGame"
+            android:name=".RushHourContext"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".AddLevelContext"
             android:exported="false" />
         <activity
             android:name=".MenuActivity"

@@ -1,5 +1,6 @@
 package com.example.dragdrop;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,70 +15,81 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
+// התפריט הראשי עם אפשרות להירשם, להתחבר, להתנתק ולהגיע לכל מקום באפליקציה
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
-
+//משמש לאוטנטיקציה עם פיירבייס
     FirebaseAuth firebaseAuth;
-    Button btnAddPost;
+  //כפתור המעביר לADDLEVEL אקטיביטי
+    Button btnAddLevel;
+    //  כפתור להרשמה והתחברות (פותח דיאלוג להכנסת פרטים רלוונטיים)
     Button btnReg, btnLogin;//dialog buttons
+    //כפתור שרושם ומחבר לאחר הזנת הפרטים
     Button btnMainLogin, btnMainRegister;
+    //המקום בו מזינים את המייל, סיסמא ושם משתמש
     EditText etEmail, etPass, etName;
+    //הדיאלוג הקופץ במקרה של הרשמה או התחברות
     Dialog d;
+    //דיאלוג נטען כשנרשמים
     ProgressDialog progressDialog;
-    Button btnAllPost;
+    //כפתור שמראה את כל השלבים
+    Button btnAllLevels;
+    //רפרנס בענן למשתמש
     DatabaseReference userRef;
+    //דוגמא של המסד נתונים בפיירבייס
     FirebaseDatabase firebaseDatabase;
+    //המשתמש הנוכחי לשימוש בכל המחלקות
     public static User user;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        AddLevel.bitmaps = new TempVehicle[8];
-        AddLevel.bitmaps[0] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.green_car2), 2, 0,
+        AddLevelCanvas.bitmaps = new TempVehicle[8];
+        AddLevelCanvas.bitmaps[0] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.green_car2), 2, 0,
                 120,  0);
-        Levels.d2.add(resizeBitmap(AddLevel.bitmaps[0].bitmap, 380));
+        GetBitmap.d2.add(resizeBitmap(AddLevelCanvas.bitmaps[0].bitmap, 380));
         float xx = 190;
-        AddLevel.bitmaps[1] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.green_car2), 2, 1,
+        AddLevelCanvas.bitmaps[1] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.green_car2), 2, 1,
                 0,  0);
-        Levels.u2.add(resizeBitmap(AddLevel.bitmaps[1].bitmap, 380));
+        GetBitmap.u2.add(resizeBitmap(AddLevelCanvas.bitmaps[1].bitmap, 380));
 
 
-        AddLevel.bitmaps[2] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.orange_car2), 2, 0,
+        AddLevelCanvas.bitmaps[2] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.orange_car2), 2, 0,
                 xx,  xx);
-        Levels.d2.add(resizeBitmap(AddLevel.bitmaps[2].bitmap, 380));
+        GetBitmap.d2.add(resizeBitmap(AddLevelCanvas.bitmaps[2].bitmap, 380));
 
-        AddLevel.bitmaps[3] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.orange_car2), 2, 1,
+        AddLevelCanvas.bitmaps[3] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.orange_car2), 2, 1,
                 xx,  xx);
-        Levels.u2.add(resizeBitmap(AddLevel.bitmaps[3].bitmap, 380));
+        GetBitmap.u2.add(resizeBitmap(AddLevelCanvas.bitmaps[3].bitmap, 380));
 
-        AddLevel.bitmaps[4] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.pink_car3), 3, 0,
+        AddLevelCanvas.bitmaps[4] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.pink_car3), 3, 0,
                 xx,  xx);
-        Levels.d3.add(resizeBitmap(AddLevel.bitmaps[4].bitmap, 570));
+        GetBitmap.d3.add(resizeBitmap(AddLevelCanvas.bitmaps[4].bitmap, 570));
 
-        AddLevel.bitmaps[5] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.pink_car3), 3, 1,
+        AddLevelCanvas.bitmaps[5] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.pink_car3), 3, 1,
                 xx,  xx);
-        Levels.u3.add(resizeBitmap(AddLevel.bitmaps[5].bitmap, 570));
+        GetBitmap.u3.add(resizeBitmap(AddLevelCanvas.bitmaps[5].bitmap, 570));
 
-        AddLevel.bitmaps[6] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.blue_car3), 3, 0,
+        AddLevelCanvas.bitmaps[6] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.blue_car3), 3, 0,
                 xx,  xx);
-        Levels.d3.add(resizeBitmap(AddLevel.bitmaps[6].bitmap, 570));
+        GetBitmap.d3.add(resizeBitmap(AddLevelCanvas.bitmaps[6].bitmap, 570));
 
-        AddLevel.bitmaps[7] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.blue_car3), 3, 1,
+        AddLevelCanvas.bitmaps[7] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.blue_car3), 3, 1,
                 xx,  xx);
-        Levels.u3.add(resizeBitmap(AddLevel.bitmaps[7].bitmap, 570));
+        GetBitmap.u3.add(resizeBitmap(AddLevelCanvas.bitmaps[7].bitmap, 570));
         firebaseAuth = FirebaseAuth.getInstance();
         btnMainLogin = (Button) findViewById(R.id.btnLogin);
         btnMainLogin.setOnClickListener(this);
-        btnAllPost = (Button) findViewById(R.id.btnAllPost);
+        btnAllLevels = (Button) findViewById(R.id.btnAllPost);
 
         btnMainRegister = (Button) findViewById(R.id.btnRegister);
         btnMainRegister.setOnClickListener(this);
@@ -91,31 +103,22 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             btnMainLogin.setText("Login");
 
         }
-        btnAddPost = (Button) findViewById(R.id.btnAddPost);
-        btnAddPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
+        btnAddLevel = (Button) findViewById(R.id.btnAddPost);
+        btnAddLevel.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, AddLevelContext.class);
+            startActivity(intent);
         });
 
-        btnAllPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this, AllLevelsActivity.class);
-                startActivity(intent);
+        btnAllLevels.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, AllLevelsActivity.class);
+            startActivity(intent);
 
-            }
         });
         Button btnPlay = (Button)findViewById(R.id.btnPlay);
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(FirebaseAuth.getInstance().getCurrentUser() != null) {
-                    Intent intent = new Intent(MenuActivity.this, RushHourGame.class);
-                    startActivity(intent);
-                }
+        btnPlay.setOnClickListener(view -> {
+            if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+                Intent intent = new Intent(MenuActivity.this, RushHourContext.class);
+                startActivity(intent);
             }
         });
         String str = "\uD83D\uDE07";
@@ -149,65 +152,62 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @SuppressLint("SetTextI18n")
     public void register() {
 
         progressDialog.setMessage("Registering Please Wait...");
         progressDialog.show();
 
-        firebaseAuth.createUserWithEmailAndPassword(etEmail.getText().toString(), etPass.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(MenuActivity.this, "Successfully registered", Toast.LENGTH_LONG).show();
-                    btnMainLogin.setText("Logout");
-                    addUserDetails();
-                } else {
-                    Toast.makeText(MenuActivity.this, "Registration Error", Toast.LENGTH_LONG).show();
-
-                }
-
-                d.dismiss();
-                progressDialog.dismiss();
-
+        firebaseAuth.createUserWithEmailAndPassword(etEmail.getText().toString(), etPass.getText().toString()).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(MenuActivity.this, "Successfully registered", Toast.LENGTH_LONG).show();
+                btnMainLogin.setText("Logout");
+                addUserDetails();
+            } else {
+                Toast.makeText(MenuActivity.this, "Registration Error", Toast.LENGTH_LONG).show();
 
             }
+
+            d.dismiss();
+            progressDialog.dismiss();
+
+
         });
 
     }
 
     private void addUserDetails() {
-        String uid = firebaseAuth.getCurrentUser().getUid().toString();
+        String uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
          user = new User(etName.getText().toString(),uid,"" );
         userRef = firebaseDatabase.getReference("Users").push();
         user.key = userRef.getKey();
         userRef.setValue(user);
     }
 
+    @SuppressLint("SetTextI18n")
     public void login() {
         progressDialog.setMessage("Login Please Wait...");
         progressDialog.show();
 
         firebaseAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPass.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(Task<AuthResult> task) {
+                .addOnCompleteListener(this, task -> {
 
-                        if (task.isSuccessful()) {
-                            Toast.makeText(MenuActivity.this, "auth_success", Toast.LENGTH_SHORT).show();
-                            btnMainLogin.setText("Logout");
+                    if (task.isSuccessful()) {
+                        Toast.makeText(MenuActivity.this, "auth_success", Toast.LENGTH_SHORT).show();
+                        btnMainLogin.setText("Logout");
 
-                        } else {
-                            Toast.makeText(MenuActivity.this, "auth_failed", Toast.LENGTH_SHORT).show();
-
-                        }
-                        d.dismiss();
-                        progressDialog.dismiss();
+                    } else {
+                        Toast.makeText(MenuActivity.this, "auth_failed", Toast.LENGTH_SHORT).show();
 
                     }
+                    d.dismiss();
+                    progressDialog.dismiss();
+
                 });
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View v) {
 
@@ -234,28 +234,24 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     public static Bitmap resizeBitmap(Bitmap source, int maxLength) {
         try {
             if (source.getHeight() >= source.getWidth()) {
-                int targetHeight = maxLength;
-                if (source.getHeight() <= targetHeight) { // if image already smaller than the required height
+                if (source.getHeight() <= maxLength) { // if image already smaller than the required height
                     return source;
                 }
 
                 double aspectRatio = (double) source.getWidth() / (double) source.getHeight();
-                int targetWidth = (int) (targetHeight * aspectRatio);
+                int targetWidth = (int) (maxLength * aspectRatio);
 
-                Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
-                return result;
+                return Bitmap.createScaledBitmap(source, targetWidth, maxLength, false);
             } else {
-                int targetWidth = maxLength;
 
-                if (source.getWidth() <= targetWidth) { // if image already smaller than the required height
+                if (source.getWidth() <= maxLength) { // if image already smaller than the required height
                     return source;
                 }
 
                 double aspectRatio = ((double) source.getHeight()) / ((double) source.getWidth());
-                int targetHeight = (int) (targetWidth * aspectRatio);
+                int targetHeight = (int) (maxLength * aspectRatio);
 
-                Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
-                return result;
+                return Bitmap.createScaledBitmap(source, maxLength, targetHeight, false);
 
             }
         }

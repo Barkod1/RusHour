@@ -23,11 +23,11 @@ public class IsLegalCheck extends View{
     Vehicle[] vehiclesArr, clone;
     Button btnUpload;
     EditText title;
-    AddLevel boardGame;
+    AddLevelCanvas boardGame;
     Button btnSubmit;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference levelRef;
-    public Sqaure[][] board = new Sqaure[6][6];
+    public Square[][] board = new Square[6][6];
     Vehicle lastVehicle;
     FrameLayout fl;
     float pressedX, pressedY;
@@ -142,7 +142,7 @@ public class IsLegalCheck extends View{
         float y = 102;
         for(int j = 0; j < 6; j++ ){
             for(int k = 0; k < 6; k++){
-                board[j][k] = new Sqaure(x,y,h,w);
+                board[j][k] = new Square(x,y,h,w);
                 board[j][k].draw(canvas);
                 x += w;
             }

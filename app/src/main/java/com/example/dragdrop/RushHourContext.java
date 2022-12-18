@@ -19,16 +19,29 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class RushHourGame extends AppCompatActivity implements View.OnClickListener {
-    BoardGame boardGame;
+//המחלקה בה מוצג הקנבס. המחלקה אחראית לסנכרון השלב והקשר עם פיירבייס במקרה של ניצחון
+public class RushHourContext extends AppCompatActivity implements View.OnClickListener {
+    //מחלקת המשחק של הקנבס
+    RushHourCanvas rushHourCanvas;
+
+    //הרכבים של השלב המשוחק
     ArrayList<Vehicle> vehicles;
+    //הרפרנס לשלב בענן
     DatabaseReference levelRef;
+    //פיירבייס לקבלת מידע על המשתמש והשלב
     FirebaseAuth firebaseAuth;
     private DatabaseReference database, databaseUsers;
     private User user = new User();
+
+    //השלב הנוכחי המשוחק
     Level currentLevel;
+    //איטרטור לפיירבייס
     Iterator<DataSnapshot> iter;
-    RushHourGame itself;
+
+    //דוגמא של עצמו
+    RushHourContext itself;
+
+    //המפתח לפיירבייס
     String key;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +55,7 @@ public class RushHourGame extends AppCompatActivity implements View.OnClickListe
             Log.d("key" , key + " ");
         }
         firebaseAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance().getReference("/Levels");
+        database = FirebaseDatabase.getInstance().getReference("/GetBitmap");
         databaseUsers = FirebaseDatabase.getInstance().getReference("/Users");
         retreiveUser();
         this.itself = this;
@@ -80,7 +93,7 @@ public class RushHourGame extends AppCompatActivity implements View.OnClickListe
                         vehicle.w = Float.parseFloat(par[4]);
                         vehicle.h = Float.parseFloat(par[5]);
                         vehicle.code = par[6];
-                        vehicle.bitmap = Levels.getBitmap(vehicle.code);
+                        vehicle.bitmap = GetBitmap.getBitmap(vehicle.code);
                         vehicles.add(vehicle);
                         i++;
 
@@ -105,8 +118,8 @@ public class RushHourGame extends AppCompatActivity implements View.OnClickListe
                 FrameLayout frameLayout  =(FrameLayout)findViewById(R.id.mainfram);
                 Vehicle[] arr = new Vehicle[vehicles.size()];
                 arr = vehicles.toArray(arr);
-                boardGame = new BoardGame(RushHourGame.this,frameLayout ,arr, itself);
-                frameLayout.addView(boardGame);
+                rushHourCanvas = new RushHourCanvas(RushHourContext.this,frameLayout ,arr, itself);
+                frameLayout.addView(rushHourCanvas);
 
                                }
 
@@ -152,7 +165,7 @@ public class RushHourGame extends AppCompatActivity implements View.OnClickListe
     }
 
     public void updateDialogDetails(){
-        boardGame.tvTitle.setText("Great Job, " +user.nickname + "!");
+        rushHourCanvas.tvTitle.setText("Great Job, " +user.nickname + "!");
         databaseUsers = FirebaseDatabase.getInstance().getReference("/Users/" + user.key);
         if(!user.finishedLevels.contains(currentLevel.key))
         user.finishedLevels.add(currentLevel.key);
@@ -163,21 +176,21 @@ public class RushHourGame extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        boardGame.d.dismiss();
-        if(view == boardGame.btnNext){
+        rushHourCanvas.d.dismiss();
+        if(view == rushHourCanvas.btnNext){
 
             retrieveData();
 
         }
-        if(view == boardGame.btnBack){
+        if(view == rushHourCanvas.btnBack){
             Intent intent = new Intent(this, MenuActivity.class);
             startActivity(intent);
         }
 
-        if(view == boardGame.btnShare){
+        if(view == rushHourCanvas.btnShare){
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, boardGame.vehiclesArr.toString());
+            sendIntent.putExtra(Intent.EXTRA_TEXT, rushHourCanvas.vehiclesArr.toString());
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
         }

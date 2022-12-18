@@ -1,34 +1,58 @@
 package com.example.dragdrop;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-
-public class BoardGame extends View{
+//מחלקה זו הינה אחראית על הקנבס בו מוצג המשחק וכן בדיקת תקינות השלב
+@SuppressLint("ViewConstructor")
+public class RushHourCanvas extends View{
+    //הקונטקסט עליו הקנבס מופיע
     Context context;
+
+    //מערך הרכבים של השלב
     Vehicle[] vehiclesArr;
-    public Sqaure[][] board = new Sqaure[6][6];
+
+    //הלוח של הריבועים
+    public Square[][] board = new Square[6][6];
+
+    //הרכב בו נוגע/נגע המשתמש
     Vehicle lastVehicle;
+
+
     FrameLayout fl;
+
+    //היכן המשתמש נגע
     float pressedX, pressedY;
+
+    //האם המשתמש מזיז את הרכב
     boolean moved;
+
+    //כפתורים המופיעים ברגע שמסיים את השלב לחזרה לMENU או להמשיך לשחק
     Button btnBack, btnNext;
+
+    //מופיע כשנגמר השלב הכותרת המשלבת את שם המשתמש
     TextView tvTitle;
+
+    //הדיאלוג המופיע כשהמשתמש מצליח את השלב
     Dialog d;
-    RushHourGame itself;
+
+    //המחלקה המזמנת את הקנבס משומש לזימון הדיאלוג
+    RushHourContext itself;
+
+    //כפתור השיתוף בדיאלוג
     Button btnShare;
 
-    public BoardGame(Context context, FrameLayout fl, Vehicle[] vehicles, RushHourGame itself) {
+    public RushHourCanvas(Context context, FrameLayout fl, Vehicle[] vehicles, RushHourContext itself) {
         super(context);
         this.context = context;
         this.fl = fl;
@@ -36,7 +60,8 @@ public class BoardGame extends View{
         this.itself = itself;
     }
 
-
+//אחראי על כל מגע של המשתמש כולל גרירה,נגיעה ועזיבה
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();
@@ -117,7 +142,7 @@ public class BoardGame extends View{
             return true;
     }
 
-
+//פעולה המציירת את הלוח עצמו
     public void drawBoard(Canvas canvas){
         float h = 193;
         float w = 193;
@@ -125,7 +150,7 @@ public class BoardGame extends View{
         float y = 173;
         for(int j = 0; j < 6; j++ ){
             for(int k = 0; k < 6; k++){
-                board[j][k] = new Sqaure(x,y,h,w);
+                board[j][k] = new Square(x,y,h,w);
                 board[j][k].draw(canvas);
                 x += w;
             }
@@ -134,88 +159,42 @@ public class BoardGame extends View{
         }
     }
 
-    public void occupation(){
-        for(int u = 0; u < 6; u++)
-            for(int v = 0; v < 6; v++){
-                board[u][v].occupied = false;
-                board[u][v].vehicle = null;
-            }
-        for(int i = 0; i < vehiclesArr.length; i++){
-            Vehicle vehicle = vehiclesArr[i];
-            if(vehicle.length == 1) {
-                int start = (int) (vehicle.x/120);
-                int height = (int) (vehicle.y/120);
-                board[height][start].occupied = true;
-                board[height][start].vehicle = vehicle;
-            }
-            else if(vehicle.direction == 0){
-                int start = (int) (vehicle.x/120);
-                int height = (int) (vehicle.y/120);
-                for(int j = start; j<start+vehicle.length;j++){
-                    board[height][j].occupied = true;
-                    board[height][j].vehicle = vehicle;
-                }
-            }
-            else{
-                int start = (int) (vehicle.y/120);
-                int height = (int) (vehicle.x/120);
-                for(int j = start; j<start+vehicle.length;j++){
 
-                    board[j][height].occupied = true;
-                    board[j][height].vehicle = vehicle;
-                }
-            }
-        }
-}
-
-
-    public void printBoard(){
-        String str = "";
-        for(int i = 0; i<6;i++){
-            str += "\n";
-            for(int j = 0; j < 6; j++){
-                str += board[i][j].occupied + " " + i + " " + j + " ";
-            }
-        }
-        Log.d("BOARD: ", "\n"+str);
-    }
-
+//פעולה המציירת בקנבס
+    @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
         drawBoard(canvas);
         canvas.drawBitmap(resizeBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.board), 1580),0.0F,0.0F,new Paint());
-        for(int i = 0; i < vehiclesArr.length; i++) {
-            vehiclesArr[i].draw(canvas);
+        for (Vehicle vehicle : vehiclesArr) {
+            vehicle.draw(canvas);
         }
     }
 
+    //פעולה המשנה את גודל הביטמאפ (נלקח מהאתר אוברפלו)
     public static Bitmap resizeBitmap(Bitmap source, int maxLength) {
         try {
             if (source.getHeight() >= source.getWidth()) {
-                int targetHeight = maxLength;
-                if (source.getHeight() <= targetHeight) { // if image already smaller than the required height
+                if (source.getHeight() <= maxLength) { // if image already smaller than the required height
                     return source;
                 }
 
                 double aspectRatio = (double) source.getWidth() / (double) source.getHeight();
-                int targetWidth = (int) (targetHeight * aspectRatio);
+                int targetWidth = (int) (maxLength * aspectRatio);
 
-                Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
-                return result;
+                return Bitmap.createScaledBitmap(source, targetWidth, maxLength, false);
             } else {
-                int targetWidth = maxLength;
 
-                if (source.getWidth() <= targetWidth) { // if image already smaller than the required height
+                if (source.getWidth() <= maxLength) { // if image already smaller than the required height
                     return source;
                 }
 
                 double aspectRatio = ((double) source.getHeight()) / ((double) source.getWidth());
-                int targetHeight = (int) (targetWidth * aspectRatio);
+                int targetHeight = (int) (maxLength * aspectRatio);
 
-                Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
-                return result;
+                return Bitmap.createScaledBitmap(source, maxLength, targetHeight, false);
 
             }
         }
@@ -225,6 +204,7 @@ public class BoardGame extends View{
         }
     }
 
+    //פעולה הבודקת האם המשתמש הצליח את השלב
     private boolean isWin(){
         for(Vehicle v : vehiclesArr){
             if(v.direction == 0)

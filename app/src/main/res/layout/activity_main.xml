@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/race"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".AddLevelContext">
 
     <FrameLayout
         android:id="@+id/mainfram"

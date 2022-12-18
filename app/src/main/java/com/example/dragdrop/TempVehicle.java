@@ -8,13 +8,11 @@ import android.graphics.Paint;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+//המחלקה אחראית על ייצוג של רכב שכן יכול לזוז לכל הכיוונים. שימוש בעריכת שלב
 @IgnoreExtraProperties
 public class TempVehicle extends Vehicle {
     public Paint p;
 
-    public TempVehicle(){
-
-    }
     public TempVehicle(Bitmap bitmap, int length, int direction, float x, float y) {
         super(bitmap, length, direction, x, y);
     }
@@ -29,7 +27,7 @@ public class TempVehicle extends Vehicle {
     }
 
 @Override
-    public void updatePlaceAfterMoving(float x, float y, Sqaure[][] arr) {
+    public void updatePlaceAfterMoving(float x, float y, Square[][] arr) {
     int indexX = round((x - 120) / 193) ;
     int indeXy = round((y - 170) / 193);
     if(indeXy == 6) indeXy = 5;

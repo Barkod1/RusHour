@@ -19,13 +19,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class AddLevelContext extends Activity implements View.OnClickListener {
     Button btnUpload;
     public ArrayList<TempVehicle> copyVehicles;
 
     Level level;
     EditText title;
-    AddLevel boardGame;
+    AddLevelCanvas boardGame;
     IsLegalCheck isLegalCheck;
     Button btnSubmit;
     FirebaseDatabase firebaseDatabase;
@@ -42,10 +42,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btnSubmit.setOnClickListener(this);
         FrameLayout frameLayout  =(FrameLayout)findViewById(R.id.mainfram);
 
-        for(int i =0;i<AddLevel.bitmaps.length;i++){
-            vehiclesArr.add((TempVehicle) AddLevel.bitmaps[i]);
+        for(int i = 0; i< AddLevelCanvas.bitmaps.length; i++){
+            vehiclesArr.add((TempVehicle) AddLevelCanvas.bitmaps[i]);
         }
-        boardGame = new AddLevel(this, vehiclesArr, this);
+        boardGame = new AddLevelCanvas(this, vehiclesArr, this);
         frameLayout.addView(boardGame);
     }
 
@@ -83,7 +83,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
         if(view == isLegalCheck.btnUpload){
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
-            levelRef = firebaseDatabase.getReference("Levels").push();
+            levelRef = firebaseDatabase.getReference("GetBitmap").push();
             level.uid = uid;
             level.title = isLegalCheck.title.getText().toString();
             level.difficulty = (int) isLegalCheck.ratingBar.getRating();

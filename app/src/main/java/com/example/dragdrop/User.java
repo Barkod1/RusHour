@@ -3,11 +3,17 @@ package com.example.dragdrop;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
+
+//המחלקה מייצגת את המשתמש
 @IgnoreExtraProperties
 public class User {
+    //כינוי המשתמש
     public String nickname;
+    //הID של המשתמש בענן
     public String uid;
+    //המפתח של המשתמש בענן
     public String key;
+    //מערך-רשימה של השלבים שהמשתמש פתר
     public ArrayList<String> finishedLevels;
     public ArrayList<Level> publishedLevels;
     public int stars;

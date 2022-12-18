@@ -16,20 +16,20 @@ import android.view.View;
 import java.util.ArrayList;
 
 
-public class AddLevel extends View implements DialogInterface.OnCancelListener {
+public class AddLevelCanvas extends View implements DialogInterface.OnCancelListener {
     public static TempVehicle[] bitmaps;
     public ArrayList<TempVehicle> vehiclesArr = new ArrayList<>();
 
     private int index;
-    public Sqaure[][] board = new Sqaure[6][6];
+    public Square[][] board = new Square[6][6];
     TempVehicle lastVehicle;
     float pressedX, pressedY;
     boolean moved, summoned = false;
     private int arrow; // 0 nothing 1 left 2 right
-    private MainActivity mainActivity;
-    public AddLevel(Context context, ArrayList<TempVehicle> vehicles, MainActivity mainActivity) {
+    private AddLevelContext addLevelContext;
+    public AddLevelCanvas(Context context, ArrayList<TempVehicle> vehicles, AddLevelContext addLevelContext) {
         super(context);
-        this.mainActivity = mainActivity;
+        this.addLevelContext = addLevelContext;
         TempVehicle[] arr = new TempVehicle[vehicles.size()];
         arr = vehicles.toArray(arr);
         this.bitmaps = arr;
@@ -150,7 +150,7 @@ public class AddLevel extends View implements DialogInterface.OnCancelListener {
         float y = 173;
         for(int j = 0; j < 6; j++ ){
             for(int k = 0; k < 6; k++){
-                board[j][k] = new Sqaure(x,y,h,w);
+                board[j][k] = new Square(x,y,h,w);
                 board[j][k].draw(canvas);
                 x += w;
             }
@@ -283,6 +283,6 @@ public class AddLevel extends View implements DialogInterface.OnCancelListener {
 //                Log.d("cancel", v.y +  " " + v.x + " " + v.w +" " + v.bitmap.getWidth());
 //
 //            }
-        vehiclesArr = mainActivity.copyVehicles;
+        vehiclesArr = addLevelContext.copyVehicles;
     }
 }

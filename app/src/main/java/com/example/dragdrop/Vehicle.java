@@ -12,10 +12,15 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class Vehicle {
+    //אורך המכונית במשבצות
     int length;
+
+    //כיוון המכונית 0-ציר הX ו1-ציר הY
     int direction; // 0 - X , 1 -Y
+    //תמונת המכונית בביטמאפ
     Bitmap bitmap;
 
+    //מעביר את המכונית לפורמט STRING כך שיהיה אפשר להעלותו לפיירבייס
     @Override
     public String toString() {
         return
@@ -28,11 +33,19 @@ public class Vehicle {
                         ", " + code;
     }
 
+    //מיקום המכונית X,Y - משתנה כל הזמן
+    //H,W - גובה ואורך המכונית בשביל הקנבס וחישוב הגבולות
     float x, y, w, h;
+
+    //בשביל הפיירבייס - מראה בקצרה את סוג המכונית ואורכה
     String code; // "u" - up , "d" - down , +num (= length)
+   //המינימום המותר למכונית ללכת
     public float minBound;
+    //המקסימום המותר למכונית ללכת
     public float maxBound;
 
+
+    //פעולה בונה סתמית
     public Vehicle() {
         this.direction = 0;
         this.length = 2;
@@ -40,23 +53,8 @@ public class Vehicle {
         this.code = "d2";
         this.y = 0.0F;
     }
-    public Vehicle(Bitmap bitmap, int length, int direction, float x, float y,boolean is_new) {
 
-        float margin = 0;
-        this.bitmap = bitmap;
-        this.length = length;
-        this.direction = direction;
-        this.x = (float) (x + margin);
-        this.y = (float) (y + margin);
-
-
-        this.w = (float) (190 * length - margin);
-        this.h = (float) (190 - margin);
-        if (direction == 1) {
-            this.h = (float) (190 * length - margin);
-            this.w = (float) (190 - margin);
-        }
-    }
+    //פעולה בונה
     public Vehicle(Bitmap bitmap, int length, int direction, float x, float y) {
 
         float margin = 0;
@@ -82,7 +80,24 @@ public class Vehicle {
         else
             this.code = "u" + length;
     }
+    public Vehicle(Bitmap bitmap, int length, int direction, float x, float y,boolean is_new) {
 
+        float margin = 0;
+        this.bitmap = bitmap;
+        this.length = length;
+        this.direction = direction;
+        this.x = (float) (x + margin);
+        this.y = (float) (y + margin);
+
+
+        this.w = (float) (190 * length - margin);
+        this.h = (float) (190 - margin);
+        if (direction == 1) {
+            this.h = (float) (190 * length - margin);
+            this.w = (float) (190 - margin);
+        }
+    }
+    //מחזיר אמת אם המשתמש נגע בביטמאפ של המכונית. שקר אחרת
     public boolean isTouched(float x, float y) {
 
         if (x > this.x && x < (this.x + bitmap.getWidth())
@@ -105,7 +120,8 @@ public class Vehicle {
         this.maxBound = bounds[1];
     }
 
-    public void updatePlaceAfterMoving(float x, float y, Sqaure[][] arr) {
+    //מזיז את המכונית למשבצת ישרה לאחר שהמשתמש עזב את המכונית
+    public void updatePlaceAfterMoving(float x, float y, Square[][] arr) {
         int indexX = round((x - 120) / 193) ;
         int indeXy = round((y - 170) / 193);
         if(indeXy == 6) indeXy = 5;
@@ -119,7 +135,7 @@ public class Vehicle {
 
     }
 
-    public void updateSmallPlaceAfterMoving(float x, float y, Sqaure[][] arr) {
+    public void updateSmallPlaceAfterMoving(float x, float y, Square[][] arr) {
         int indexX =round((x - 72) / 115.8F) ;
         int indeXy = round((y - 102) / 115.8F);
         if(indeXy == 6) indeXy = 5;
@@ -144,37 +160,4 @@ public class Vehicle {
 
     }
 
-    public static Bitmap resizeBitmap(Bitmap source, int maxLength) {
-        try {
-            if (source.getHeight() >= source.getWidth()) {
-                int targetHeight = maxLength;
-                if (source.getHeight() <= targetHeight) { // if image already smaller than the required height
-                    return source;
-                }
-
-                double aspectRatio = (double) source.getWidth() / (double) source.getHeight();
-                int targetWidth = (int) (targetHeight * aspectRatio);
-
-                Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
-                return result;
-            } else {
-                int targetWidth = maxLength;
-
-                if (source.getWidth() <= targetWidth) { // if image already smaller than the required height
-                    return source;
-                }
-
-                double aspectRatio = ((double) source.getHeight()) / ((double) source.getWidth());
-                int targetHeight = (int) (targetWidth * aspectRatio);
-
-                Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
-                return result;
-
-            }
-        }
-        catch (Exception e)
-        {
-            return source;
-        }
-    }
 }
