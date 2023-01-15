@@ -35,7 +35,7 @@ public class AllLevelsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_all_levels);
         levels = new ArrayList<>();
         lv = (ListView) findViewById(R.id.lvLevels);
-        levelsRef = FirebaseDatabase.getInstance().getReference("/GetBitmap");
+        levelsRef = FirebaseDatabase.getInstance().getReference("/Levels");
         this.retrieveData();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

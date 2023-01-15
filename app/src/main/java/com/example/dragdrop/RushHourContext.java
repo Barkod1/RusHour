@@ -3,6 +3,9 @@ package com.example.dragdrop;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -43,6 +46,32 @@ public class RushHourContext extends AppCompatActivity implements View.OnClickLi
 
     //המפתח לפיירבייס
     String key;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_all, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menuItem:
+                Intent intent = new Intent(this, MenuActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.SettingsItem:
+
+                Intent intent1 = new Intent(this, SettingsActivity.class);
+                startActivity(intent1);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -55,7 +84,7 @@ public class RushHourContext extends AppCompatActivity implements View.OnClickLi
             Log.d("key" , key + " ");
         }
         firebaseAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance().getReference("/GetBitmap");
+        database = FirebaseDatabase.getInstance().getReference("/Levels");
         databaseUsers = FirebaseDatabase.getInstance().getReference("/Users");
         retreiveUser();
         this.itself = this;
@@ -114,9 +143,14 @@ public class RushHourContext extends AppCompatActivity implements View.OnClickLi
                         break;
                     }
                 }
-
+                Vehicle[] arr;
                 FrameLayout frameLayout  =(FrameLayout)findViewById(R.id.mainfram);
-                Vehicle[] arr = new Vehicle[vehicles.size()];
+                if(vehicles != null) {
+                    arr = new Vehicle[vehicles.size()];
+                }
+                    else {
+                    arr = new Vehicle[0];
+                }
                 arr = vehicles.toArray(arr);
                 rushHourCanvas = new RushHourCanvas(RushHourContext.this,frameLayout ,arr, itself);
                 frameLayout.addView(rushHourCanvas);
@@ -135,6 +169,7 @@ public class RushHourContext extends AppCompatActivity implements View.OnClickLi
 
 
     public void retreiveUser(){
+
         databaseUsers = FirebaseDatabase.getInstance().getReference("/Users");
         databaseUsers.addValueEventListener(new ValueEventListener() {
 

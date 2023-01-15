@@ -83,7 +83,7 @@ public class AddLevelContext extends Activity implements View.OnClickListener {
         }
         if(view == isLegalCheck.btnUpload){
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
-            levelRef = firebaseDatabase.getReference("GetBitmap").push();
+            levelRef = firebaseDatabase.getReference("/Levels").push();
             level.uid = uid;
             level.title = isLegalCheck.title.getText().toString();
             level.difficulty = (int) isLegalCheck.ratingBar.getRating();

@@ -6,8 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,7 +47,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     FirebaseDatabase firebaseDatabase;
     //המשתמש הנוכחי לשימוש בכל המחלקות
     public static User user;
-
+    //כפתור שמעביר לאקטיביטי של ההגדרות
+    Button btnSettings;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             btnMainLogin.setText("Login");
 
         }
+        btnSettings = (Button)findViewById(R.id.btnSettings);
+        btnSettings.setOnClickListener(this);
         btnAddLevel = (Button) findViewById(R.id.btnAddPost);
         btnAddLevel.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, AddLevelContext.class);
@@ -121,10 +124,14 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
             }
         });
-        String str = "\uD83D\uDE07";
-        Log.d("str emoji", str);
-    }
+        if(MusicPlayerService.player == null) {
+            MusicPlayerService.player = MediaPlayer.create(this, R.raw.hotel_california);
 
+            Intent intent = new Intent(this, MusicPlayerService.class);
+            startService(intent);
+        }
+    }
+    //יוצר דיאלוג להרשמה
     public void createRegisterDialog() {
         d = new Dialog(this);
         d.setContentView(R.layout.register_layout);
@@ -138,7 +145,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         d.show();
 
     }
-
+//יוצר דיאלוג להתחברות
     public void createLoginDialog() {
         d = new Dialog(this);
         d.setContentView(R.layout.login_layout);
@@ -228,7 +235,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             login();
         }
 
-
+    if(v == btnSettings){
+        Intent intent = new Intent(this,SettingsActivity.class);
+        startActivity(intent);
+    }
     }
 
     public static Bitmap resizeBitmap(Bitmap source, int maxLength) {
