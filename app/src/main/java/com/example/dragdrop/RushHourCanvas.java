@@ -28,7 +28,6 @@ public class RushHourCanvas extends View{
     //הרכב בו נוגע/נגע המשתמש
     Vehicle lastVehicle;
 
-
     FrameLayout fl;
 
     //היכן המשתמש נגע
@@ -101,12 +100,8 @@ public class RushHourCanvas extends View{
             case MotionEvent.ACTION_UP:
                 if (lastVehicle != null && moved) {
                     moved = false;
-                           // Vehicle copy = new Vehicle(lastVehicle.bitmap, lastVehicle.length, lastVehicle.direction, lastVehicle.x, lastVehicle.y);
                             lastVehicle.setBounds(vehiclesArr);
-//                            copy.minBound = lastVehicle.minBound;
-//                            copy.maxBound = lastVehicle.maxBound;
                     if (lastVehicle.direction == 0) {
-                            //copy.updatePlaceAfterMoving(copy.x, event.getY(), board);
                         if (Boundries.isInBoundries(lastVehicle.x, lastVehicle)) {
                             lastVehicle.updatePlaceAfterMoving(lastVehicle.x, event.getY(), board);
                         }

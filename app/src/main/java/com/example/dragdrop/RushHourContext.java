@@ -1,6 +1,7 @@
 package com.example.dragdrop;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -77,7 +78,8 @@ public class RushHourContext extends AppCompatActivity implements View.OnClickLi
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(new BatteryCheckReceiver(), filter);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             key = extras.getString("key");
@@ -89,6 +91,7 @@ public class RushHourContext extends AppCompatActivity implements View.OnClickLi
         retreiveUser();
         this.itself = this;
         this.retrieveData();
+
 
 
     }
@@ -229,5 +232,14 @@ public class RushHourContext extends AppCompatActivity implements View.OnClickLi
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+
     }
 }

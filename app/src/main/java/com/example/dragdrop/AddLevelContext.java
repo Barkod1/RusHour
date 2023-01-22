@@ -4,6 +4,7 @@ package com.example.dragdrop;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +38,8 @@ public class AddLevelContext extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_level);
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(new BatteryCheckReceiver(), filter);
         firebaseDatabase = FirebaseDatabase.getInstance();
         btnSubmit = (Button)findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(this);
@@ -129,5 +132,14 @@ public class AddLevelContext extends Activity implements View.OnClickListener {
         {
             return source;
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+
     }
 }

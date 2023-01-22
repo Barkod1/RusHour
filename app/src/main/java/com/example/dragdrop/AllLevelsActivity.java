@@ -1,6 +1,7 @@
 package com.example.dragdrop;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,6 +34,8 @@ public class AllLevelsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_levels);
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(new BatteryCheckReceiver(), filter);
         levels = new ArrayList<>();
         lv = (ListView) findViewById(R.id.lvLevels);
         levelsRef = FirebaseDatabase.getInstance().getReference("/Levels");
@@ -79,5 +82,14 @@ public class AllLevelsActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+
     }
 }

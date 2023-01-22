@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.util.Log;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -126,7 +125,6 @@ public class Vehicle {
         int indeXy = round((y - 170) / 193);
         if(indeXy == 6) indeXy = 5;
         if(indexX == 6) indexX = 5;
-        Log.d("found x y ", indexX + " " + indeXy + " " + x + " " + y);
         if (this.direction == 0)
             this.x = arr[indeXy][indexX].x;
         else
@@ -150,7 +148,6 @@ public class Vehicle {
     public void draw(Canvas canvas) {
         canvas.drawBitmap(bitmap, this.x, this.y, new Paint());
     }
-
 
 
     public Bitmap rotateBitmap(float angle) {

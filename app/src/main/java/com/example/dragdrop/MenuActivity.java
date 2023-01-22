@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
@@ -54,6 +55,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(new BatteryCheckReceiver(), filter);
         AddLevelCanvas.bitmaps = new TempVehicle[8];
         AddLevelCanvas.bitmaps[0] = new TempVehicle(BitmapFactory.decodeResource(getResources(), R.drawable.green_car2), 2, 0,
                 120,  0);
