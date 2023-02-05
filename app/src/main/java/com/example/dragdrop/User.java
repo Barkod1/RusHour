@@ -16,14 +16,17 @@ public class User {
     //מערך-רשימה של השלבים שהמשתמש פתר
     public ArrayList<String> finishedLevels;
     public ArrayList<Level> publishedLevels;
+    //stars of the player
     public int stars;
 
+    //default constructor
     public User(){
         this.finishedLevels = new ArrayList<>();
         this.publishedLevels = new ArrayList<>();
         this.stars = 0;
     }
 
+    //constructor
     public User(String nickname, String uid, String key) {
         this.nickname = nickname;
         this.uid = uid;

@@ -10,12 +10,17 @@ import android.os.IBinder;
 import java.io.IOException;
 
 public class MusicPlayerService extends Service {
+    //the music player of the app
     static MediaPlayer player;
+    //in case the user chooses a song from the phone
     static Uri songUri;
+    //gets track if the player is playing
     static boolean isPlaying;
+
     public IBinder onBind(Intent arg0) {
         return null;
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -43,6 +48,7 @@ public class MusicPlayerService extends Service {
         return Service.START_STICKY;
     }
 
+
     @Override
     public void onDestroy() {
         if(player!=null){
@@ -51,10 +57,4 @@ public class MusicPlayerService extends Service {
         }
     }
 
-    public static boolean isPlaying(){
-        if(player != null)
-        return true;
-        else
-        return false;
-    }
 }

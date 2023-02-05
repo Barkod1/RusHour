@@ -186,6 +186,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //add user details in firebase
     private void addUserDetails() {
         String uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
          user = new User(etName.getText().toString(),uid,"" );
@@ -194,6 +195,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         userRef.setValue(user);
     }
 
+    //login with firebase
     @SuppressLint("SetTextI18n")
     public void login() {
         progressDialog.setMessage("Login Please Wait...");
@@ -244,6 +246,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
     }
 
+    //resize bitmap
     public static Bitmap resizeBitmap(Bitmap source, int maxLength) {
         try {
             if (source.getHeight() >= source.getWidth()) {

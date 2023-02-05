@@ -47,7 +47,7 @@ public class Boundries {
         return new float[]{min, max};
     }
 
-
+    //הפעולה מקבלת מערך של מכוניות ומחזירה את הגבולות של מכונית מתוך המערך
     public static float[] getSmallBounds(Vehicle vehicle, Vehicle[] arr) {
         float max;
         float min;

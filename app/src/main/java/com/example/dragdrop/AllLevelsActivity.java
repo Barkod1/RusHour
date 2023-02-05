@@ -52,11 +52,10 @@ public class AllLevelsActivity extends AppCompatActivity {
         });
     }
 
-
+//get the data for each level
     public void retrieveData()
     {
         levelsRef.addValueEventListener(new ValueEventListener() {
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 level = new Level();
@@ -73,7 +72,6 @@ public class AllLevelsActivity extends AppCompatActivity {
                 }
                 allLevelsAdapter = new AllLevelsAdapter(AllLevelsActivity.this,0,0,levels);
                 lv.setAdapter(allLevelsAdapter);
-
             }
 
             @Override
@@ -84,7 +82,7 @@ public class AllLevelsActivity extends AppCompatActivity {
         });
     }
 
-
+    //if hits the back button go back to menu
     @Override
     public void onBackPressed() {
         super.onBackPressed();

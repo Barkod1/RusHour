@@ -14,6 +14,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private Switch musicSwitch;
     private Button selectMusicBtn;
     public static Uri songUri;
+    // button for calling
+    public Button buttonCall;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,16 +27,19 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         musicSwitch = findViewById(R.id.switch1);
         musicSwitch.setOnClickListener(this);
         if(MusicPlayerService.player != null) {
-            if(MusicPlayerService.isPlaying())
-            musicSwitch.setChecked(true);
+            musicSwitch.setChecked(MusicPlayerService.isPlaying);
         }
-        else{
-            musicSwitch.setChecked(false);
-        }
+        buttonCall = (Button)findViewById(R.id.button_call);
+        buttonCall.setOnClickListener(this::onClick);
     }
 
     @Override
     public void onClick(View view) {
+        if(view.getId()==buttonCall.getId()){
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            // Start the activity of the phone
+            startActivity(intent);
+        }
         if(view.getId() == selectMusicBtn.getId()){
             Intent intent = new Intent();
             intent.setType("audio/*");

@@ -180,6 +180,7 @@ public class RushHourContext extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(firebaseAuth.getCurrentUser() != null){
                 String uid = firebaseAuth.getCurrentUser().getUid().toString();
                 iter = snapshot.getChildren().iterator();
                 for(DataSnapshot data: snapshot.getChildren()){
@@ -189,6 +190,7 @@ public class RushHourContext extends AppCompatActivity implements View.OnClickLi
                 if(uid.equals(uidcheck)){
                     user = data.getValue(User.class);
                    break;
+                }
                 }
                 }
 
@@ -203,11 +205,11 @@ public class RushHourContext extends AppCompatActivity implements View.OnClickLi
     }
 
     public void updateDialogDetails(){
-        rushHourCanvas.tvTitle.setText("Great Job, " +user.nickname + "!");
         databaseUsers = FirebaseDatabase.getInstance().getReference("/Users/" + user.key);
         if(!user.finishedLevels.contains(currentLevel.key))
         user.finishedLevels.add(currentLevel.key);
         user.stars += currentLevel.difficulty;
+        rushHourCanvas.tvTitle.setText("Great Job, " +user.nickname + "!\n current stars: "+user.stars);
         databaseUsers.setValue(user);
     }
 

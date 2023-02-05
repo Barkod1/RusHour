@@ -101,21 +101,12 @@ public class IsLegalCheck extends View{
                     ratingBar = (RatingBar) d.findViewById(R.id.ratingBar);
                     d.show();
 
-//                    String str = getVehiclesArrString();
-//                    Log.d("cool ", str);
                     Intent intent = new Intent(context,MenuActivity.class);
-//
-//                    intent.putExtra("DATA",str);
-                    //startActivity(intent);
                 }
                 if (lastVehicle != null && moved) {
                     moved = false;
-                    // Vehicle copy = new Vehicle(lastVehicle.bitmap, lastVehicle.length, lastVehicle.direction, lastVehicle.x, lastVehicle.y);
                     lastVehicle.setBounds(vehiclesArr);
-//                            copy.minBound = lastVehicle.minBound;
-//                            copy.maxBound = lastVehicle.maxBound;
                     if (lastVehicle.direction == 0) {
-                        //copy.updatePlaceAfterMoving(copy.x, event.getY(), board);
                         if (Boundries.isInBoundries(lastVehicle.x, lastVehicle)) {
                             lastVehicle.updateSmallPlaceAfterMoving(lastVehicle.x, event.getY(), board);
                         }

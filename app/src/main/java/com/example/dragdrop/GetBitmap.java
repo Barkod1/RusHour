@@ -9,7 +9,7 @@ public class GetBitmap {
     public static ArrayList<Bitmap> u2 = new ArrayList<Bitmap>(), u3 = new ArrayList<Bitmap>(), d2 = new ArrayList<Bitmap>(),
             d3 = new ArrayList<Bitmap>();
 
-
+//get random bitmap by string code format for vehicle
     public static Bitmap getBitmap(String code) {
         char direction = code.charAt(0);
         int length = Integer.parseInt(String.valueOf(code.charAt(1)));

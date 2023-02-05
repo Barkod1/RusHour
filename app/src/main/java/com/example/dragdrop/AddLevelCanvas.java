@@ -256,33 +256,9 @@ public class AddLevelCanvas extends View implements DialogInterface.OnCancelList
             return source;
         }
     }
-    public static Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
 
-        float bitmapRatio = (float) width / (float) height;
-        if (bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
-    }
     @Override
     public void onCancel(DialogInterface dialogInterface) {
-//            for(Vehicle v : vehiclesArr) {
-//                Log.d("cancel", v.y +  " " + v.x + " " + v.w+" " + v.bitmap.getWidth());
-//                v.y /= 0.6;
-//
-//                v.x /= 0.6;
-//                v.h /= 0.6;
-//                v.w /= 0.6;
-//                v.bitmap = getResizedBitmap(v.bitmap, v.length * 190);
-//                Log.d("cancel", v.y +  " " + v.x + " " + v.w +" " + v.bitmap.getWidth());
-//
-//            }
         vehiclesArr = addLevelContext.copyVehicles;
     }
 }

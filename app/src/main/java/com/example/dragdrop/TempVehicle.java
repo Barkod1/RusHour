@@ -21,7 +21,6 @@ public class TempVehicle extends Vehicle {
         super(bitmap, length, direction, x, y,true);
     }
 
-
     public void draw(Canvas canvas) {
         canvas.drawBitmap(bitmap, this.x, this.y, p);
     }

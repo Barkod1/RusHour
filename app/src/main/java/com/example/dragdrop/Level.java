@@ -22,9 +22,9 @@ public class Level {
 
 
         public Level(){
-
     }
 
+    //get string format for this level
         @NonNull
         @Override
         public String toString() {
@@ -43,6 +43,7 @@ public class Level {
                     "$" + key + '\'';
         }
 
+        //constructor
         public Level(ArrayList<Vehicle> vehicles, String uid, String title, String key) {
         this.vehicles = vehicles;
         this.difficulty = 0;

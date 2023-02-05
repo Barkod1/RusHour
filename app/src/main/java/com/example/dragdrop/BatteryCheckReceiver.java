@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.os.BatteryManager;
 import android.widget.Toast;
 
+//checks if the battery isn't low
 public class BatteryCheckReceiver extends BroadcastReceiver {
 
+    //checks if the battery isn't low
+    //in case of battery is lower than 15% toast is appearing on screen
     @Override
     public void onReceive(Context context, Intent intent) {
         int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);

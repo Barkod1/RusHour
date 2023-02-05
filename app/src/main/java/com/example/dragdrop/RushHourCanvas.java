@@ -168,7 +168,7 @@ public class RushHourCanvas extends View{
         }
     }
 
-    //פעולה המשנה את גודל הביטמאפ (נלקח מהאתר אוברפלו)
+    //פעולה המשנה את גודל הביטמאפ (נלקח מהאתר סטאק-אוברפלו)
     public static Bitmap resizeBitmap(Bitmap source, int maxLength) {
         try {
             if (source.getHeight() >= source.getWidth()) {

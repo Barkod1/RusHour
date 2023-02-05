@@ -79,6 +79,7 @@ public class Vehicle {
         else
             this.code = "u" + length;
     }
+
     public Vehicle(Bitmap bitmap, int length, int direction, float x, float y,boolean is_new) {
 
         float margin = 0;
@@ -96,7 +97,7 @@ public class Vehicle {
             this.w = (float) (190 - margin);
         }
     }
-    //מחזיר אמת אם המשתמש נגע בביטמאפ של המכונית. שקר אחרת
+    //מחזיר אמת אם המשתמש נגע בביטמאפ של המכונית שקר אחרת
     public boolean isTouched(float x, float y) {
 
         if (x > this.x && x < (this.x + bitmap.getWidth())
@@ -106,13 +107,14 @@ public class Vehicle {
         return false;
     }
 
-
+    //set the boundries
     public void setBounds(Vehicle[] arr) {
         float[] bounds = Boundries.getBounds(this, arr);
         this.minBound = bounds[0];
         this.maxBound = bounds[1];
     }
 
+    //set the boundries
     public void setSmallBounds(Vehicle[] arr) {
         float[] bounds = Boundries.getSmallBounds(this, arr);
         this.minBound = bounds[0];
@@ -132,7 +134,7 @@ public class Vehicle {
 
 
     }
-
+    //מזיז את המכונית למשבצת ישרה לאחר שהמשתמש עזב את המכונית
     public void updateSmallPlaceAfterMoving(float x, float y, Square[][] arr) {
         int indexX =round((x - 72) / 115.8F) ;
         int indeXy = round((y - 102) / 115.8F);
@@ -144,12 +146,12 @@ public class Vehicle {
         this.y = arr[indeXy][indexX].y;
     }
 
-
+//draw the vehicle on the canvas
     public void draw(Canvas canvas) {
         canvas.drawBitmap(bitmap, this.x, this.y, new Paint());
     }
 
-
+//rotates the bitmap
     public Bitmap rotateBitmap(float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
